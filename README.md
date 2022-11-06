@@ -23,7 +23,7 @@ API, позволяющий версионировать конфиги, нап�
 <div style="display:flex; justify-content:center">
   <div>
     <img src="docs/imgs/graph.jpg" />
-    <p align="center">Схема postgres</p>
+    <p align="center">Схема neo4j</p>
   </div>
 </div>  
 
