@@ -13,7 +13,7 @@ import (
 func main() {
 	r := mux.NewRouter()
 
-	dbUri := "neo4j://localhost:7687"
+	dbUri := "neo4j://neo4j:7687"
 	driver, err := neo4j.NewDriverWithContext(dbUri, neo4j.BasicAuth("neo4j", "admin123", ""))
 	if err != nil {
 		panic(err)
