@@ -1,21 +1,34 @@
 package main
 
 import (
+	routes "configserver/routes"
+	"context"
 	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/neo4j/neo4j-go-driver/v5/neo4j"
 )
-
-func YourHandler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Gorilla!\n"))
-}
 
 func main() {
 	r := mux.NewRouter()
-	// Routes consist of a path and a handler function.
-	r.HandleFunc("/", YourHandler)
 
-	// Bind to a port and pass our router in
+	dbUri := "neo4j://localhost:7687"
+	driver, err := neo4j.NewDriverWithContext(dbUri, neo4j.BasicAuth("neo4j", "admin123", ""))
+	if err != nil {
+		panic(err)
+	}
+
+	ctx := context.Background()
+	defer driver.Close(ctx)
+
+	var Connection routes.DatabaseNeo4j = routes.DatabaseNeo4j{Driver: &driver, Context: &ctx}
+
+	r.HandleFunc("/config", Connection.HandleCreateConfig).Methods("POST")
+	r.HandleFunc("/config", Connection.HandleUpdateConfig).Methods("PUT")
+	r.HandleFunc("/config", Connection.HandleGetConfig).Methods("GET").Queries("service", "{service}", "version", "{version}")
+	r.HandleFunc("/config", Connection.HandleGetConfig).Methods("GET").Queries("service", "{service}")
+	r.HandleFunc("/config/delete", Connection.HandleDeleteConfig).Methods("DELETE").Queries("service", "{service}")
+
 	log.Fatal(http.ListenAndServe(":8000", r))
 }

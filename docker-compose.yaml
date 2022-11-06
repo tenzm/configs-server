@@ -1,6 +1,14 @@
 version: "3.9"
 
 services: 
+
+  go-server:
+    build: ./app
+    ports:
+      - "8080:8000"
+    depends_on:
+      - "neo4j"
+
   neo4j:
     image: "neo4j:latest"
     ports:
@@ -12,7 +20,6 @@ services:
       - "./neo4j/import:/var/lib/neo4j/import"
       - "./neo4j/plugins:/plugins"
     environment: 
-      NEO4JLABS_PLUGINS: '["apoc"]'
       NEO4J_AUTH: neo4j/admin123
 
 
