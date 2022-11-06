@@ -1,6 +1,14 @@
 version: "3.9"
 
 services: 
+
+  go-server:
+    build: ./app
+    ports:
+      - "8080:8000"
+    depends_on:
+      - "neo4j"
+
   neo4j:
     image: "neo4j:latest"
     ports:

@@ -28,6 +28,7 @@ func main() {
 	r.HandleFunc("/config", Connection.HandleUpdateConfig).Methods("PUT")
 	r.HandleFunc("/config", Connection.HandleGetConfig).Methods("GET").Queries("service", "{service}", "version", "{version}")
 	r.HandleFunc("/config", Connection.HandleGetConfig).Methods("GET").Queries("service", "{service}")
+	r.HandleFunc("/config/delete", Connection.HandleDeleteConfig).Methods("DELETE").Queries("service", "{service}")
 
 	log.Fatal(http.ListenAndServe(":8000", r))
 }

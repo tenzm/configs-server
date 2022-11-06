@@ -36,6 +36,22 @@ func (connection *DatabaseNeo4j) HandleCreateConfig(w http.ResponseWriter, r *ht
 	}
 }
 
+func (connection *DatabaseNeo4j) HandleDeleteConfig(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	fmt.Println(vars)
+
+	service := vars["service"]
+
+	err := crud.DeleteConfig(service, *(*connection).Driver, *(*connection).Context)
+
+	if err == nil {
+		w.Write([]byte(fmt.Sprintf("The configuration has been removed.\n")))
+	} else {
+		w.Write([]byte(fmt.Sprintf("The configuration was not found. \n")))
+	}
+
+}
+
 func (connection *DatabaseNeo4j) HandleGetConfig(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)

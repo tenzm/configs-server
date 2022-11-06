@@ -46,6 +46,29 @@ func CreateConfig(config models.Config, driver neo4j.DriverWithContext, ctx cont
 	return
 }
 
+func DeleteConfig(service string, driver neo4j.DriverWithContext, ctx context.Context) error {
+	session := (driver).NewSession(ctx, neo4j.SessionConfig{})
+	_, err := session.ExecuteWrite(ctx, func(tx neo4j.ManagedTransaction) (any, error) {
+
+		_, err := tx.Run(ctx, "MATCH (service:Service {name: $name }) DETACH DELETE service", map[string]any{
+			"name": service,
+		})
+
+		if err != nil {
+			fmt.Println(err)
+			return nil, err
+		}
+
+		return "ok", nil
+	})
+	session.Close(ctx)
+
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func GetConfig(service string, version int64, driver neo4j.DriverWithContext, ctx context.Context) models.Output {
 
 	if version == -1 {
