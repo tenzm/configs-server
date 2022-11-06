@@ -123,7 +123,7 @@ The configuration has been updated. Current version: 2
 
 #### **Запрос**
 
-`curl http://localhost:8080/config?service=managed-k8s&version=1`
+`curl "http://localhost:8080/config?service=managed-k8s&version=1"`
 
 #### **Ответ**
 
@@ -148,8 +148,5 @@ The configuration has been updated. Current version: 2
 `status_code: 200`
 
 ```json
-{
-    "key1": "learn"
-    "key2": "golang"
-}
+curl -X DELETE http://localhost:8080/config/delete?service=managed-k8s
 ```
