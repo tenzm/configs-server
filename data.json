@@ -1,6 +1,9 @@
 {
-    "service": "managed-k8s",
+    "service": "managed-k1s",
     "data": [
-        {"key1": "value12"}
+        {"key1": "Hello"},
+        {"key2": "World"},
+        {"key3": "Go language"},
+        {"key4": "The Best"}
     ]
 }
